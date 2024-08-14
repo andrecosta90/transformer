@@ -4,7 +4,7 @@ from transformer.dummy import DummyOptimizer, DummyScheduler
 from transformer.loss import SimpleLossCompute
 from transformer.model import make_model
 from transformer.smoothing import LabelSmoothing
-from transformer.utils import run_epoch, data_gen
+from transformer.utils import run_epoch, data_gen, greedy_decode
 
 
 from torch.optim.lr_scheduler import LambdaLR
@@ -36,8 +36,7 @@ def example_simple_model():
         optimizer=optimizer,
         lr_lambda=lambda step: rate(
             step,
-            # model_size=model.src_embed[0].d_model,
-            model_size=10,
+            model_size=model.src_embed[0].d_model,
             factor=1.0,
             warmup=400
         ),
