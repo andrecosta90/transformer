@@ -6,6 +6,11 @@ class SublayerConnection(nn.Module):
     """
     A residual connection followed by a layer norm.
     Note for code simplicity the norm is first as opposed to last.
+
+    This code is different from the paper! In the paper is smth like "return self.norm(x + sublayer(x))".
+        Why? See the reference bellow:
+    [1] https://github.com/harvardnlp/annotated-transformer/issues/92
+    [2] https://github.com/harvardnlp/annotated-transformer/issues/100
     """
 
     def __init__(self, size, dropout):

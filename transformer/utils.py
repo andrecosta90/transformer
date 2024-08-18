@@ -16,7 +16,6 @@ class TrainState:
     samples: int = 0  # total # of examples used
     tokens: int = 0  # total # of tokens processed
 
-
 def run_epoch(
     data_iter,
     model,
