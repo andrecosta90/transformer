@@ -4,6 +4,7 @@ from transformer.utils import clones
 
 import torch.nn as nn
 
+
 class Decoder(nn.Module):
     "Generic N layer decoder with masking."
 
@@ -16,7 +17,8 @@ class Decoder(nn.Module):
         for layer in self.layers:
             x = layer(x, memory, src_mask, tgt_mask)
         return self.norm(x)
-    
+
+
 class DecoderLayer(nn.Module):
     "Decoder is made of self-attn, src-attn, and feed forward (defined below)"
 

@@ -1,6 +1,7 @@
 from torch.nn.functional import log_softmax
 import torch.nn as nn
 
+
 class Generator(nn.Module):
     "Define standard linear + softmax generation step."
 

@@ -1,5 +1,6 @@
 import torch
 
+
 class DummyOptimizer(torch.optim.Optimizer):
     def __init__(self):
         self.param_groups = [{"lr": 0}]
