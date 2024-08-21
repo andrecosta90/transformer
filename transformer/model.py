@@ -17,6 +17,15 @@ def make_model(
     src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0.1
 ):
     "Helper: Construct a model from hyperparameters."
+    '''
+    What nn.Sequential Does? `nn.Sequential(Embeddings(d_model, src_vocab), c(position))`
+        + Combines Modules: nn.Sequential allows you to group a sequence of layers or operations 
+            that should be applied one after another. In your example, this means that the output 
+            of the Embeddings layer will be directly passed as input to the c(position) layer.
+        + Streamlines the Forward Pass: By using nn.Sequential, you don't need to manually define 
+            the forward pass for each component. Instead, the forward pass through the sequence is 
+            automatically handled, simplifying your code.
+    '''
     c = copy.deepcopy
     attn = MultiHeadedAttention(h, d_model)
     ff = PositionWiseFeedForward(d_model, d_ff, dropout)

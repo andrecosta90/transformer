@@ -2,7 +2,16 @@ from transformer.mask import subsequent_mask
 
 
 class Batch:
-    """Object for holding a batch of data with mask during training."""
+    """
+    Object for holding a batch of data with mask during training.
+
+    pad: The value used to represent padding tokens in the sequences. 
+        The default value is 2, which might correspond to a special <blank> token in the vocabulary.
+
+    self.src_mask: A mask that indicates where the padding tokens (pad) are in the source sequence. 
+        The mask is expanded along the last dimension (using .unsqueeze(-2)) to fit 
+        the expected shape for further processing.
+    """
 
     def __init__(self, src, tgt=None, pad=2):  # 2 = <blank>
         self.src = src
