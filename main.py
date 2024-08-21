@@ -1,25 +1,19 @@
 # Train the simple copy task.
 
+from torch.optim.lr_scheduler import LambdaLR
+from transformer.translator import greedy_decode
+from transformer.train import run_epoch, rate
+from transformer.smoothing import LabelSmoothing
+from transformer.model import make_model
+from transformer.loss import SimpleLossCompute
+from transformer.fake_data import data_gen
+from transformer.dummy import DummyOptimizer, DummyScheduler
 import torch
 # cpu : 1m32s
 # gpu : 0m38s battery saver
 # gpu : 0m11s performance
 torch.set_default_device("cuda")
-print(torch.get_default_device()) 
-
-from transformer.dummy import DummyOptimizer, DummyScheduler
-from transformer.fake_data import data_gen
-from transformer.loss import SimpleLossCompute
-from transformer.model import make_model
-from transformer.smoothing import LabelSmoothing
-from transformer.train import run_epoch, rate
-from transformer.translator import greedy_decode
-
-
-
-
-from torch.optim.lr_scheduler import LambdaLR
-
+print(torch.get_default_device())
 
 
 def example_simple_model():
@@ -27,9 +21,15 @@ def example_simple_model():
     criterion = LabelSmoothing(size=V, padding_idx=0, smoothing=0.0)
     model = make_model(V, V, N=2)
 
+    # Optimizer: Adjusts the model’s parameters to improve performance.
+    #
     optimizer = torch.optim.Adam(
         model.parameters(), lr=0.5, betas=(0.9, 0.98), eps=1e-9
     )
+
+    # Scheduler: Controls how big the adjustments should be over time,
+    #   starting slow, speeding up, and then slowing down again.
+    #
     lr_scheduler = LambdaLR(
         optimizer=optimizer,
         lr_lambda=lambda step: rate(
@@ -41,7 +41,7 @@ def example_simple_model():
     )
 
     batch_size = 80
-    for epoch in range(10):
+    for _ in range(10):
         model.train()
         run_epoch(
             data_gen(V, batch_size, 20),

@@ -58,24 +58,40 @@ def run_epoch(
         out = model.forward(
             batch.src, batch.tgt, batch.src_mask, batch.tgt_mask
         )
-        loss, loss_node = loss_compute(out, batch.tgt_y, batch.ntokens)  # ??
+        loss, loss_node = loss_compute(out, batch.tgt_y, batch.ntokens)
         if mode == "train" or mode == "train+log":
+            # This line performs backpropagation, which computes the gradients of the
+            #   loss with respect to the model's parameters.
             loss_node.backward()
             train_state.step += 1
             train_state.samples += batch.src.shape[0]
             train_state.tokens += batch.ntokens
             if i % accum_iter == 0:
-                optimizer.step()  # ??
-                optimizer.zero_grad(set_to_none=True)  # ??
+
+                # This line of code updates the model's parameters based on the
+                #   gradients computed during the backward pass (loss_node.backward()).
+                #
+                optimizer.step()
+
+                #  This line of code clears the gradients of all the model parameters.
+                #
+                optimizer.zero_grad(set_to_none=True)
+
                 n_accum += 1
                 train_state.accum_step += 1
+
+            # This line updates the learning rate according to the learning rate scheduler.
+            #
             scheduler.step()
 
         total_loss += loss
         total_tokens += batch.ntokens
         tokens += batch.ntokens
         if i % 40 == 1 and (mode == "train" or mode == "train+log"):
-            lr = optimizer.param_groups[0]["lr"]  # ??
+
+            # This line retrieves the current learning rate from the optimizer.
+            lr = optimizer.param_groups[0]["lr"]
+
             elapsed = time.time() - start
             print(
                 (
