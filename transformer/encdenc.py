@@ -1,3 +1,9 @@
+from transformer.embedding import Embeddings
+from transformer.encoder import Encoder
+from transformer.decoder import Decoder
+from transformer.generator import Generator
+
+
 import torch.nn as nn
 
 
@@ -7,7 +13,7 @@ class EncoderDecoder(nn.Module):
     other models.
     """
 
-    def __init__(self, encoder, decoder, src_embed, tgt_embed, generator):
+    def __init__(self, encoder: Encoder, decoder: Decoder, src_embed: Embeddings, tgt_embed: Embeddings, generator: Generator):
         super(EncoderDecoder, self).__init__()
         self.encoder = encoder
         self.decoder = decoder

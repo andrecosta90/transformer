@@ -1,7 +1,11 @@
+from transformer.generator import Generator
+from transformer.smoothing import LabelSmoothing
+
+
 class SimpleLossCompute:
     "A simple loss compute and train function."
 
-    def __init__(self, generator, criterion):
+    def __init__(self, generator: Generator, criterion: LabelSmoothing):
         self.generator = generator
         self.criterion = criterion
 

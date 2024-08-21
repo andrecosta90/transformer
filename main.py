@@ -8,11 +8,14 @@ torch.set_default_device("cuda")
 print(torch.get_default_device()) 
 
 from transformer.dummy import DummyOptimizer, DummyScheduler
+from transformer.fake_data import data_gen
 from transformer.loss import SimpleLossCompute
 from transformer.model import make_model
-from transformer.optim import rate
 from transformer.smoothing import LabelSmoothing
-from transformer.utils import run_epoch, data_gen, greedy_decode
+from transformer.train import run_epoch, rate
+from transformer.translator import greedy_decode
+
+
 
 
 from torch.optim.lr_scheduler import LambdaLR
@@ -38,7 +41,7 @@ def example_simple_model():
     )
 
     batch_size = 80
-    for epoch in range(10):
+    for epoch in range(20):
         model.train()
         run_epoch(
             data_gen(V, batch_size, 20),

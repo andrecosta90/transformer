@@ -6,7 +6,7 @@ from transformer.penc import PositionalEncoding
 from transformer.encdenc import EncoderDecoder
 from transformer.encoder import Encoder, EncoderLayer
 from transformer.decoder import Decoder, DecoderLayer
-from transformer.embed import Embeddings
+from transformer.embedding import Embeddings
 from transformer.generator import Generator
 
 
