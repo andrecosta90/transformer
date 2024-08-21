@@ -41,7 +41,7 @@ def example_simple_model():
     )
 
     batch_size = 80
-    for epoch in range(20):
+    for epoch in range(10):
         model.train()
         run_epoch(
             data_gen(V, batch_size, 20),

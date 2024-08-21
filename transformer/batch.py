@@ -11,6 +11,16 @@ class Batch:
     self.src_mask: A mask that indicates where the padding tokens (pad) are in the source sequence. 
         The mask is expanded along the last dimension (using .unsqueeze(-2)) to fit 
         the expected shape for further processing.
+
+    self.tgt: The target sequence excluding the last token (tgt[:, :-1]), used as input to the decoder.
+
+    self.tgt_y: The target sequence excluding the first token (tgt[:, 1:]), used as the expected output 
+        for training (i.e., what the model is trying to predict).
+
+    self.tgt_mask: A mask for the target sequence that hides padding and future tokens, 
+        created by calling self.make_std_mask.
+        
+    self.ntokens: The number of non-padding tokens in self.tgt_y, used for loss computation and normalization.
     """
 
     def __init__(self, src, tgt=None, pad=2):  # 2 = <blank>
